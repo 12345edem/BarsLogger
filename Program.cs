@@ -10,7 +10,7 @@ namespace BarsLogger
         static void Main(string []args)
         {
             var logger = new Logger();
-            FileWriter.isConsoleEnabled = false;//отключаем вывод в консоль(<true> по умолчанию)
+            FileWriter.isConsoleEnabled = false;
 
             //При работе в цикле, вызвать в нем <MainLoop()>
 
@@ -33,3 +33,7 @@ namespace BarsLogger
         }
     }   
 }
+/*
+-Внести isUnque как отдельный метод
+-Переименовать неуникальные списки
+*/

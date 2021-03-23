@@ -4,10 +4,21 @@ using System.Collections.Generic;
 
 namespace BarsLogger
 {
-    //Модуль для записи информации непосредственно в файлы
+    ///<summary>
+    ///Модуль для записи информации в файлы
+    ///</summary>
     public class FileWriter
     {
+        ///<summary>
+        ///Значение, определяющее будет ли информаия о добавлении в лог выведена в консоль
+        ///</summary>
         public static bool isConsoleEnabled = true;
+        ///<summary>
+        ///Метод записи в файл
+        ///</summary>
+        /// <param name="writePath">путь для записи</param>
+        /// <param name="logName">наименование файла</param>
+        /// <param name="message">сообщение для записи</param>
         public static void Write(string writePath, string logName, string message)
         {
             try
@@ -24,6 +35,14 @@ namespace BarsLogger
                 Console.WriteLine(ex);
             }
         }
+        ///<summary>
+        ///Метод записи в файл
+        ///</summary>
+        /// <param name="writePath">путь для записи</param>
+        /// <param name="logName">наименование файла</param>
+        /// <param name="message">сообщение для записи</param>
+        /// <param name="e">исключение</param>
+        
         public static void Write(string writePath, string logName, string message, Exception e)
         {
             try
@@ -40,6 +59,13 @@ namespace BarsLogger
                 Console.WriteLine(ex);
             }
         }
+        ///<summary>
+        ///Метод записи в файл
+        ///</summary>
+        /// <param name="writePath">путь для записи</param>
+        /// <param name="logName">наименование файла</param>
+        /// <param name="message">сообщение для записи</param>
+        /// <param name="args">текст из командной строки</param>
         public static void Write(string writePath, string logName, string message, params object[] args)
         {
             try
@@ -61,6 +87,12 @@ namespace BarsLogger
                 Console.WriteLine(ex);
             }
         }
+        ///<summary>
+        ///Метод записи в файл
+        ///</summary>
+        /// <param name="writePath">путь для записи</param>
+        /// <param name="logName">наименование файла</param>
+        /// <param name="e">исключение</param>
         public static void Write(string writePath, string logName, Exception e)
         {
             try
@@ -77,6 +109,13 @@ namespace BarsLogger
                 Console.WriteLine(ex);
             }
         }
+        ///<summary>
+        ///Метод записи в файл
+        ///</summary>
+        /// <param name="writePath">путь для записи</param>
+        /// <param name="logName">наименование файла</param>
+        /// <param name="message">сообщение для записи</param>
+        /// <param name="properties">словарь информации вида Value:Key</param>
         public static void Write(string writePath, string logName, string message, Dictionary<object, object> properties = null)
         {
             try

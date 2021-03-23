@@ -6,10 +6,14 @@ namespace BarsLogger
 {
     public class Logger : ILog 
     {
-        //Расширение файла
+        ///<summary>
+        ///Расширение файла
+        ///</summary>
         private const string fileExt = ".log";
 
-        //Переменные пути сохранения
+        ///<summary>
+        ///Переменные пути сохранения
+        ///</summary>
         private static string dirPath;
         private string fatalErrorPath;
         private string errorPath;
@@ -20,7 +24,9 @@ namespace BarsLogger
         private string debugPath;
         private string systemInfoPath;
 
-        //Наименования логов для вывода в Console и задания имени выходного файла
+        ///<summary>
+        ///Наименования логов для вывода в Console и задания имени выходного файла
+        ///</summary>
         private const string fatalName = "Fatal";
         private const string errorName = "Error";
         private const string errorUniqueName = "ErrorUnique";
@@ -30,9 +36,14 @@ namespace BarsLogger
         private const string debugName = "Debug";
         private const string systemInfoName = "SystemInfo";
 
-        //Списки для проверки уникальных ошибок и ворнингов
-        private static List<string> errorUniqueListMessage = new List<string>();
-        public static List<string> warningUniqueListMessage = new List<string>();
+        ///<summary>
+        ///Списjr для хранения неуникальных ошибок в процессе работы и при инициализации
+        ///</summary>
+        private static List<string> errorNotUniqueList = new List<string>();
+        ///<summary>
+        ///Список для хранения неуникальных ворнингов в процессе работы и при инициализации
+        ///</summary>
+        public static List<string> warningNotUniqueList = new List<string>();
         
         public Logger()
         {
@@ -41,7 +52,11 @@ namespace BarsLogger
             Paths();
             Init();
         }
-        //Запускаем это в цикле для проверки смены дня, работает и при запуске программы
+        
+        ///<summary>
+        ///Запускаем это в цикле для проверки смены дня, работает и при запуске программы
+        ///</summary>
+        
         public void MainLoop()
         {
             if(!Directory.Exists(dirPath))
@@ -51,11 +66,13 @@ namespace BarsLogger
             }
         }
 
-        //Инициализация: очистка списков, заполнение списков неуникальными значениями
+        ///<summary>
+        ///Инициализация: очистка списков, заполнение списков неуникальных значений
+        ///</summary>
         private void Init()
         {
-            errorUniqueListMessage.Clear();
-            warningUniqueListMessage.Clear();
+            errorNotUniqueList.Clear();
+            warningNotUniqueList.Clear();
 
             //Учет уникальных ворнингов
             try
@@ -63,7 +80,7 @@ namespace BarsLogger
                 
                 using(StreamReader sr = new StreamReader(warningUniquePath))
                     while (!sr.EndOfStream)
-                        warningUniqueListMessage.Add(sr.ReadLine());
+                        warningNotUniqueList.Add(sr.ReadLine());
             }
             catch(Exception ex)
             {
@@ -75,7 +92,7 @@ namespace BarsLogger
             {   
                 using(StreamReader sr = new StreamReader(warningPath))
                     while(!sr.EndOfStream)
-                        warningUniqueListMessage.Add(sr.ReadLine());       
+                        warningNotUniqueList.Add(sr.ReadLine());       
             }
             catch(Exception ex)
             {
@@ -87,7 +104,7 @@ namespace BarsLogger
             {
                 using(StreamReader sr = new StreamReader(errorUniquePath))
                     while(!sr.EndOfStream)
-                        errorUniqueListMessage.Add(sr.ReadLine());
+                        errorNotUniqueList.Add(sr.ReadLine());
             }
             catch(Exception ex)
             {
@@ -99,7 +116,7 @@ namespace BarsLogger
             {
                 using(StreamReader sr = new StreamReader(errorPath))
                     while(!sr.EndOfStream)
-                        errorUniqueListMessage.Add(sr.ReadLine());
+                        errorNotUniqueList.Add(sr.ReadLine());
             }
             catch(Exception ex)
             {
@@ -107,7 +124,9 @@ namespace BarsLogger
             }
         }
 
-        //Пути сохранения по определенным видам логов
+        ///<summary>
+        ///Задание путей сохранения по определенным видам логов
+        ///</summary>
         private void Paths()
         {
             fatalErrorPath = dirPath + @"\" + fatalName + fileExt;
@@ -118,6 +137,25 @@ namespace BarsLogger
             infoPath = dirPath + @"\" + infoName + fileExt;
             debugPath = dirPath + @"\" + debugName + fileExt;
             systemInfoPath = dirPath + @"\" + systemInfoName + fileExt;
+        }
+
+        ///<summary>
+        ///Немного магии по определению наличия в списке переданной строки
+        ///</summary>
+        private static bool isContains(string message, List<string> notUniqueElemList,  string e = "")
+        {
+            var isUnique = 0;
+            foreach(string str in notUniqueElemList)
+            {
+                if(str.Contains(message) || str.Contains(e))
+                {
+                    isUnique++;
+                }
+            }
+            
+            if(isUnique > 0)
+                return false;
+            return true;
         }
 
         //Реализация методов интерфейса ILog
@@ -132,25 +170,25 @@ namespace BarsLogger
         public void Error(string message)
         {
             FileWriter.Write(errorPath, errorName, message);
-            errorUniqueListMessage.Add(message);
+            errorNotUniqueList.Add(message);
         }
         public void Error(Exception e)
         {
             FileWriter.Write(errorPath, errorName, e);
-            errorUniqueListMessage.Add(e.ToString());
+            errorNotUniqueList.Add(e.ToString());
         }
         public void Error(string message, Exception e)
         {
             FileWriter.Write(errorPath, errorName, message, e);
-            errorUniqueListMessage.Add(message);
-            errorUniqueListMessage.Add(e.ToString());
+            errorNotUniqueList.Add(message);
+            errorNotUniqueList.Add(e.ToString());
         } 
         public void ErrorUnique(string message, Exception e)
         {
-            if(isUniqueCheck.isUnique(message, e, errorUniqueListMessage))
+            if(isContains(message, errorNotUniqueList, e.ToString()))
             {
-                errorUniqueListMessage.Add(message);
-                errorUniqueListMessage.Add(e.ToString());
+                errorNotUniqueList.Add(message);
+                errorNotUniqueList.Add(e.ToString());
                 FileWriter.Write(errorUniquePath, errorUniqueName, message, e);
             }
             else
@@ -161,18 +199,18 @@ namespace BarsLogger
         public void Warning(string message)
         {
             FileWriter.Write(warningPath, warningName, message);
-            warningUniqueListMessage.Add(message);
+            warningNotUniqueList.Add(message);
         }
         public void Warning(string message, Exception e)
         {
             FileWriter.Write(warningPath, warningName, message, e);
-            warningUniqueListMessage.Add(message);
+            warningNotUniqueList.Add(message);
         }
         public void WarningUnique(string message)
         {
-            if(isUniqueCheck.isUnique(message, warningUniqueListMessage))
+            if(isContains(message, warningNotUniqueList))
             {
-                warningUniqueListMessage.Add(message);
+                warningNotUniqueList.Add(message);
                 FileWriter.Write(warningUniquePath, warningUniqueName, message);
             }
             else
