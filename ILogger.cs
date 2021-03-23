@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Logger
+namespace BarsLogger
 {
     /// <summary>Интерфейс работы с логом</summary>
     public interface ILog

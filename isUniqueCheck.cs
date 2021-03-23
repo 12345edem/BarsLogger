@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Logger
+namespace BarsLogger
 {
     //Немного магии по определению наличия в списке переданной строки
     public class isUniqueCheck

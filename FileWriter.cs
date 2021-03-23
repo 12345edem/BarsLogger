@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 
-namespace Logger
+namespace BarsLogger
 {
     //Модуль для записи информации непосредственно в файлы
     public class FileWriter
