@@ -10,7 +10,7 @@ namespace BarsLogger
     public class FileWriter
     {
         ///<summary>
-        ///Значение, определяющее будет ли информаия о добавлении в лог выведена в консоль
+        ///Значение, определяющее будет ли информация о добавлении в лог выведена в консоль
         ///</summary>
         public static bool isConsoleEnabled = true;
         ///<summary>

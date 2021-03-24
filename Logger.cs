@@ -11,9 +11,6 @@ namespace BarsLogger
         ///</summary>
         private const string fileExt = ".log";
 
-        ///<summary>
-        ///Переменные пути сохранения
-        ///</summary>
         private static string dirPath;
         private string fatalErrorPath;
         private string errorPath;
@@ -24,9 +21,6 @@ namespace BarsLogger
         private string debugPath;
         private string systemInfoPath;
 
-        ///<summary>
-        ///Наименования логов для вывода в Console и задания имени выходного файла
-        ///</summary>
         private const string fatalName = "Fatal";
         private const string errorName = "Error";
         private const string errorUniqueName = "ErrorUnique";
@@ -37,7 +31,7 @@ namespace BarsLogger
         private const string systemInfoName = "SystemInfo";
 
         ///<summary>
-        ///Списjr для хранения неуникальных ошибок в процессе работы и при инициализации
+        ///Список для хранения неуникальных ошибок в процессе работы и при инициализации
         ///</summary>
         private static List<string> errorNotUniqueList = new List<string>();
         ///<summary>
@@ -54,7 +48,8 @@ namespace BarsLogger
         }
         
         ///<summary>
-        ///Запускаем это в цикле для проверки смены дня, работает и при запуске программы
+        ///Цикл: обновление информации по необходимости создания новой папки,
+        ///создание новой папки каждый день с последующей инициализацией логгера
         ///</summary>
         
         public void MainLoop()
@@ -140,7 +135,7 @@ namespace BarsLogger
         }
 
         ///<summary>
-        ///Немного магии по определению наличия в списке переданной строки
+        ///Проверка наличия в списке переданной строки
         ///</summary>
         private static bool isContains(string message, List<string> notUniqueElemList,  string e = "")
         {

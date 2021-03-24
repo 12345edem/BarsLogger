@@ -13,6 +13,7 @@ namespace BarsLogger
             FileWriter.isConsoleEnabled = false;
 
             //При работе в цикле, вызвать в нем <MainLoop()>
+            //logger.MainLoop();
 
             logger.Fatal("Служба доставки упала", new Exception("1354"));
             logger.Error("Сумма получена неверно");
