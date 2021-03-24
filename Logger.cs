@@ -37,7 +37,7 @@ namespace BarsLogger
         ///<summary>
         ///Список для хранения неуникальных ворнингов в процессе работы и при инициализации
         ///</summary>
-        public static List<string> warningNotUniqueList = new List<string>();
+        private static List<string> warningNotUniqueList = new List<string>();
         
         public Logger()
         {
@@ -137,20 +137,18 @@ namespace BarsLogger
         ///<summary>
         ///Проверка наличия в списке переданной строки
         ///</summary>
-        private static bool isContains(string message, List<string> notUniqueElemList,  string e = "")
+        private static bool isContains(string message, List<string> notUniqueElemList,  string e = "__*unique*__")
         {
             var isUnique = 0;
             foreach(string str in notUniqueElemList)
             {
                 if(str.Contains(message) || str.Contains(e))
-                {
                     isUnique++;
-                }
             }
-            
+
             if(isUnique > 0)
-                return false;
-            return true;
+                return true;
+            return false;
         }
 
         //Реализация методов интерфейса ILog
@@ -182,13 +180,13 @@ namespace BarsLogger
         {
             if(isContains(message, errorNotUniqueList, e.ToString()))
             {
-                errorNotUniqueList.Add(message);
-                errorNotUniqueList.Add(e.ToString());
-                FileWriter.Write(errorUniquePath, errorUniqueName, message, e);
+                FileWriter.Write(errorPath, errorName, message, e);
             }
             else
             {
-                FileWriter.Write(errorPath, errorName, message, e);
+                errorNotUniqueList.Add(message);
+                errorNotUniqueList.Add(e.ToString());
+                FileWriter.Write(errorUniquePath, errorUniqueName, message, e);
             }
         }
         public void Warning(string message)
@@ -205,12 +203,12 @@ namespace BarsLogger
         {
             if(isContains(message, warningNotUniqueList))
             {
-                warningNotUniqueList.Add(message);
-                FileWriter.Write(warningUniquePath, warningUniqueName, message);
+                FileWriter.Write(warningPath, warningName, message);
             }
             else
             {
-                FileWriter.Write(warningPath, warningName, message);
+                warningNotUniqueList.Add(message);
+                FileWriter.Write(warningUniquePath, warningUniqueName, message);
             }
         }
         public void Info(string message)

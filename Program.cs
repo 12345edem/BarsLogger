@@ -31,6 +31,7 @@ namespace BarsLogger
 
             logger.WarningUnique("Кажется, скоро откажет модуль сборки");
             logger.WarningUnique("Да точно новое");
+
         }
     }   
 }
