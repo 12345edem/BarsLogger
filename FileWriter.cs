@@ -25,7 +25,7 @@ namespace BarsLogger
             {
                 using(StreamWriter sw = new StreamWriter(writePath,true, System.Text.Encoding.Default))
                 {
-                    sw.WriteLine(logName +": " + message);
+                    sw.WriteLine(logName +": " + message + " | " + DateTime.Now);
                 }
                 if (isConsoleEnabled)
                     Console.WriteLine(logName + " added to log " + writePath);
@@ -49,7 +49,7 @@ namespace BarsLogger
             {
                 using(StreamWriter sw = new StreamWriter(writePath,true, System.Text.Encoding.Default))
                 {
-                    sw.WriteLine(logName + ": " + message + "; StackTrace: " + e);
+                    sw.WriteLine(logName + ": " + message + "; StackTrace: " + e + " | " + DateTime.Now);
                 }
                 if (isConsoleEnabled)
                     Console.WriteLine(logName + " added to log " + writePath);
@@ -77,7 +77,7 @@ namespace BarsLogger
                 }
                 using(StreamWriter sw = new StreamWriter(writePath,true, System.Text.Encoding.Default))
                 {
-                    sw.WriteLine(logName + ": " + message + "; Args: " + argv);
+                    sw.WriteLine(logName + ": " + message + "; Args: " + argv + " | " + DateTime.Now);
                 }
                 if (isConsoleEnabled)
                     Console.WriteLine(logName + " added to log " + writePath);
@@ -99,7 +99,7 @@ namespace BarsLogger
             {
                 using(StreamWriter sw = new StreamWriter(writePath,true, System.Text.Encoding.Default))
                 {
-                    sw.WriteLine(logName + "; StackTrace: " + e);
+                    sw.WriteLine(logName + "; StackTrace: " + e + " | " + DateTime.Now);
                 }
                 if (isConsoleEnabled)
                     Console.WriteLine(logName + " added to log " + writePath);
@@ -122,12 +122,12 @@ namespace BarsLogger
             {
                 using(StreamWriter sw = new StreamWriter(writePath,true, System.Text.Encoding.Default))
                 {
-                    sw.WriteLine(logName + ". New Dictionary: ");
+                    sw.WriteLine(logName + ". New Dictionary: " + " | " + DateTime.Now);
                     foreach(KeyValuePair<object, object> p in properties)
                     {
                         sw.WriteLine("{0}: {1}", p.Key.ToString(), p.Value.ToString());
                     }
-                    sw.WriteLine("End of dictionary.");
+                    sw.WriteLine("End of dictionary." );
                     sw.WriteLine();
                 }
                 if (isConsoleEnabled)

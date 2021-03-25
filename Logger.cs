@@ -57,7 +57,8 @@ namespace BarsLogger
             if(!Directory.Exists(dirPath))
             {
                 Directory.CreateDirectory(dirPath);
-                Init();
+                errorNotUniqueList.Clear();
+                warningNotUniqueList.Clear();
             }
         }
 
@@ -69,53 +70,32 @@ namespace BarsLogger
             errorNotUniqueList.Clear();
             warningNotUniqueList.Clear();
 
-            //Учет уникальных ворнингов
-            try
+            if(File.Exists(warningUniquePath))
             {
-                
                 using(StreamReader sr = new StreamReader(warningUniquePath))
                     while (!sr.EndOfStream)
                         warningNotUniqueList.Add(sr.ReadLine());
             }
-            catch(Exception ex)
+            
+            if(File.Exists(warningPath))
             {
-                ex.ToString();//Console.WriteLine(ex);
-            }
-
-            //Учет остальных ворнингов
-            try
-            {   
                 using(StreamReader sr = new StreamReader(warningPath))
                     while(!sr.EndOfStream)
-                        warningNotUniqueList.Add(sr.ReadLine());       
+                        warningNotUniqueList.Add(sr.ReadLine());
             }
-            catch(Exception ex)
-            {
-                ex.ToString();//Console.WriteLine(ex);
-            }
-
-            //Учет уникальных ошибок
-            try
+            
+            if(File.Exists(errorUniquePath))
             {
                 using(StreamReader sr = new StreamReader(errorUniquePath))
                     while(!sr.EndOfStream)
                         errorNotUniqueList.Add(sr.ReadLine());
             }
-            catch(Exception ex)
-            {
-                ex.ToString();//Console.WriteLine(ex);
-            }
-
-            //Учет остальных ошибок
-            try
+            
+            if(File.Exists(errorPath))
             {
                 using(StreamReader sr = new StreamReader(errorPath))
                     while(!sr.EndOfStream)
                         errorNotUniqueList.Add(sr.ReadLine());
-            }
-            catch(Exception ex)
-            {
-                ex.ToString();//Console.WriteLine(ex);
             }
         }
 
@@ -139,15 +119,11 @@ namespace BarsLogger
         ///</summary>
         private static bool isContains(string message, List<string> notUniqueElemList,  string e = "__*unique*__")
         {
-            var isUnique = 0;
             foreach(string str in notUniqueElemList)
             {
                 if(str.Contains(message) || str.Contains(e))
-                    isUnique++;
-            }
-
-            if(isUnique > 0)
-                return true;
+                    return true;
+            }   
             return false;
         }
 
@@ -178,16 +154,12 @@ namespace BarsLogger
         } 
         public void ErrorUnique(string message, Exception e)
         {
-            if(isContains(message, errorNotUniqueList, e.ToString()))
-            {
-                FileWriter.Write(errorPath, errorName, message, e);
-            }
-            else
+            if(!isContains(message, errorNotUniqueList, e.ToString()))
             {
                 errorNotUniqueList.Add(message);
                 errorNotUniqueList.Add(e.ToString());
                 FileWriter.Write(errorUniquePath, errorUniqueName, message, e);
-            }
+            }  
         }
         public void Warning(string message)
         {
@@ -201,11 +173,7 @@ namespace BarsLogger
         }
         public void WarningUnique(string message)
         {
-            if(isContains(message, warningNotUniqueList))
-            {
-                FileWriter.Write(warningPath, warningName, message);
-            }
-            else
+            if(!isContains(message, warningNotUniqueList))
             {
                 warningNotUniqueList.Add(message);
                 FileWriter.Write(warningUniquePath, warningUniqueName, message);
