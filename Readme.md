@@ -3,7 +3,7 @@
 ## Реализация логгера через интерфейсы
 
 <!---Статус сборки-->
-https://img.shields.io/github/workflow/status/neronorai/BarsLogger/build/master
+(https://img.shields.io/github/workflow/status/neronorai/BarsLogger/build/master)
 
 <!---Последний коммит-->
 https://img.shields.io/github/last-commit/neronorai/BarsLogger/master
