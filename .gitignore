@@ -1,5 +1,6 @@
 Logger.csproj
 .vscode/
+.idea/
 [Bb]in/
 [Oo]bj/
 [Dd]ebug/
