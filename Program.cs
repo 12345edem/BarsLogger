@@ -30,6 +30,7 @@ namespace BarsLogger
             logger.ErrorUnique("Да такого еще не было, мамой клянусь", new Exception("neverHaveBeen"));
 
             logger.WarningUnique("Кажется, скоро откажет модуль сборки");
+            logger.WarningUnique("Заканчивается память");
             logger.WarningUnique("Да точно новое");
 
         }
