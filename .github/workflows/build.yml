@@ -2,10 +2,10 @@ name: build
 
 on:
   push:
-    branches: - master
-    paths: - BarsLogger/**
+    branches: [master]
+    paths: [BarsLogger/**]
   pull_request:
-    branches: - master
+    branches: [master]
 
 jobs:
   build:
