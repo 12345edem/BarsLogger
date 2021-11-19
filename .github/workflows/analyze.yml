@@ -18,7 +18,7 @@ jobs:
       with:
         to: ${{ secrets.TELEGRAM_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        message: '[INFO] BarsLogger /master analysys started'
+        message: 'INFO: https://github.com/neronorai/BarsLogger/tree/master/BarsLogger analysys started'
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
@@ -43,4 +43,4 @@ jobs:
       with:
         to: ${{ secrets.TELEGRAM_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        message: '[OUTPUT] BarsLogger /master analysys result [#${{ job.status }}]'
+        message: 'INFO: https://github.com/neronorai/BarsLogger/tree/master/BarsLogger analysys result [#${{ job.status }}]'
