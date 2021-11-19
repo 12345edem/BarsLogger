@@ -68,7 +68,6 @@ jobs:
           format: markdown
           message: '``` INFO: BarsLogger /master analysis started```'
 
-      steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
