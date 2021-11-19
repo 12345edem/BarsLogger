@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BarsLogger
 {
-    /// <summary>Интерфейс работы с логом</summary>
+    /// <summary>Интерфейс работы с логами</summary>
     public interface ILog
     {
         /// <summary>
