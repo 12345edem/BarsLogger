@@ -55,6 +55,9 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    permissions:
+      security-events: write
+
     steps:
       - name: Analysis start notify
         if: always()
@@ -65,14 +68,15 @@ jobs:
           format: markdown
           message: '``` INFO: BarsLogger /master analysis started```'
 
+      steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v1
-        with:
-          languages: csharp
 
-      - run: |
-          make bootstrap
-          make release
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v1
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v1
