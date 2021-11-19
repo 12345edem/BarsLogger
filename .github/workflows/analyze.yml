@@ -32,6 +32,8 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     - name: Test
       run: dotnet test --blame --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=opencover.xml
+    - name: Install SonarCloud Tools
+      run: dotnet tool install --global dotnet-sonarscanner --version 5.0.209
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
       env:

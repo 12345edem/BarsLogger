@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Build start Notify
+    - name: Build start notify
       if: always()
       uses: appleboy/telegram-action@master
       with:
@@ -26,21 +26,18 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
+    - name: Restore dependencies
+      run: dotnet restore
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build --no-restore
     - name: Test
-      run: dotnet test --blame --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=opencover.xml
+      run: dotnet test --no-build --verbosity normal
     - name: Install SonarCloud tool
       run: dotnet tool install --global dotnet-sonarscanner --version 5.0.209
-    - name: SonarCloud Scan
-      uses: sonarsource/sonarcloud-github-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-    - name: Build status Notify
+    - name: Notify
       if: always()
       uses: appleboy/telegram-action@master
       with:
-        to: ${{ secrets.TELEGRAM_CHAT_ID }}
+        to: ${{ secrets.TELEGRAm_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        message: '[OUTPUT] BarsLogger /master build result [#${{ job.status }}]'
+        message: '[OUTPUT] BarsLogger /master analysys result [#${{ job.status }}]'
