@@ -21,12 +21,12 @@ jobs:
         to: ${{ secrets.TELEGRAM_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         format: markdown
-        message: '```[INFO] BarsLogger /master build started```'
+        message: '``` INFO: BarsLogger /master build started```'
     - uses: actions/checkout@v2
     - name: Setup .NET SDK
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 5.0.x
+        dotnet-version: 5.0.209
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
@@ -42,4 +42,4 @@ jobs:
         to: ${{ secrets.TELEGRAm_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         format: markdown
-        message: '```INFO: BarsLogger /master build result [#${{ job.status }}]```'
+        message: '``` INFO: BarsLogger /master build result [#${{ job.status }}]```'
