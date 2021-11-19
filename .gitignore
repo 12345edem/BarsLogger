@@ -6,3 +6,4 @@ Logger.csproj
 [Dd]ebug/
 [Rr]elease/
 .json
+.token

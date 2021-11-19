@@ -1,4 +1,4 @@
-name: build
+name: Build
 
 on:
   push:
@@ -31,4 +31,4 @@ jobs:
       with:
         to: ${{ secrets.TELEGRAm_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        message: 'Analyze status is: ${{ job.status }}'
+        message: Build status [${{ job.status }}]
