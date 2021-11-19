@@ -50,6 +50,9 @@ jobs:
         message: '``` INFO: BarsLogger /master build result [#${{ job.status }}]```'
 
   analyze:
+
+    runs-on: ubuntu-latest
+
     steps:
       - name: Analysis start notify
         if: always()
