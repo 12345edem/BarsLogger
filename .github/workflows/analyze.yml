@@ -45,3 +45,11 @@ jobs:
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"neronorai_BarsLogger" /o:"neronorai" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+
+      # notify
+      - name: Notify telegram
+        uses: up9cloud/action-notify@master
+        env:
+          GITHUB_JOB_STATUS: ${{ job.status }}
+          TELEGRAM_BOT_TOKEN: ${{secrets.TELEGRAM_BOT_TOKEN}}
+          TELEGRAM_CHAT_ID: ${{secrets.TELEGRAM_CHAT_ID}}

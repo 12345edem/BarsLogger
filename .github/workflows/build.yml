@@ -6,6 +6,7 @@ on:
     paths: [BarsLogger/**]
   pull_request:
     branches: [master]
+    paths: [BarsLogger/**]
 
 jobs:
   build:
@@ -24,3 +25,11 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+
+    #notify
+    - name: Notify telegram
+      uses: up9cloud/action-notify@master
+      env:
+        GITHUB_JOB_STATUS: ${{ job.status }}
+        TELEGRAM_BOT_TOKEN: ${{secrets.TELEGRAM_BOT_TOKEN}}
+        TELEGRAM_CHAT_ID: ${{secrets.TELEGRAM_CHAT_ID}}
