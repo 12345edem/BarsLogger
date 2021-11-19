@@ -25,6 +25,8 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+    - name: Install SonarCloud tool
+      run: dotnet tool install --global dotnet-sonarscanner --version 5.0.x
     - name: Notify
       if: always()
       uses: appleboy/telegram-action@master
