@@ -1,12 +1,10 @@
 name: analyze
 
 on:
-  push:
-    branches: [master]
-    paths: [BarsLogger/**]
-  pull_request:
-    branches: [master]
-    paths: [BarsLogger/**]
+workflow_run:
+  workflows: ["build"]
+  types:
+    - completed
 
 jobs:
   build:
