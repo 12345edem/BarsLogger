@@ -1,4 +1,4 @@
-name: Build
+name: CICD
 
 on:
   push:
@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
     - name: Build start notify
       if: always()
       uses: appleboy/telegram-action@master
@@ -22,19 +23,23 @@ jobs:
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         format: markdown
         message: '``` INFO: BarsLogger /master build started```'
+
     - uses: actions/checkout@v2
+
     - name: Setup .NET SDK
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.209
+
     - name: Restore dependencies
       run: dotnet restore
+
     - name: Build
       run: dotnet build --no-restore
+
     - name: Test
       run: dotnet test --no-build --verbosity normal
-    - name: Install SonarCloud tool
-      run: dotnet tool install --global dotnet-sonarscanner --version 5.0.209
+
     - name: Notify
       if: always()
       uses: appleboy/telegram-action@master
@@ -43,3 +48,35 @@ jobs:
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         format: markdown
         message: '``` INFO: BarsLogger /master build result [#${{ job.status }}]```'
+
+  analyze:
+    steps:
+      - name: Analysis start notify
+        if: always()
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          format: markdown
+          message: '``` INFO: BarsLogger /master analysis started```'
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v1
+        with:
+          languages: csharp
+
+      - run: |
+        make bootstrap
+        make release
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v1
+
+      - name: Notify
+      if: always()
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAm_CHAT_ID }}
+        token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        format: markdown
+        message: '``` INFO: BarsLogger /master analysis result [#${{ job.status }}]```'
