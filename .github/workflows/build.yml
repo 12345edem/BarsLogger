@@ -20,7 +20,8 @@ jobs:
       with:
         to: ${{ secrets.TELEGRAM_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        message: '[INFO] BarsLogger /master build started'
+        format: markdown
+        message: '```[INFO] BarsLogger /master build started```'
     - uses: actions/checkout@v2
     - name: Setup .NET SDK
       uses: actions/setup-dotnet@v1
@@ -40,4 +41,5 @@ jobs:
       with:
         to: ${{ secrets.TELEGRAm_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        message: '[OUTPUT] BarsLogger /master analysys result [#${{ job.status }}]'
+        format: markdown
+        message: '```INFO: BarsLogger /master build result [#${{ job.status }}]```'

@@ -1,24 +1,10 @@
-name: Analyze
-
-on:
-  workflow_run:
-    workflows: ["Build"]
-    types:
-      - completed
-
-jobs:
-  build:
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Notify
+- name: Notify
       if: always()
       uses: appleboy/telegram-action@master
       with:
         to: ${{ secrets.TELEGRAM_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        message: 'INFO: https://github.com/neronorai/BarsLogger/tree/master/BarsLogger analysys started'
+        message: '[INFO] BarsLogger /master analysys started'
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
@@ -32,7 +18,7 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     - name: Test
       run: dotnet test --blame --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=opencover.xml
-    - name: Install SonarCloud Tools
+    - name: Install SC Tool
       run: dotnet tool install --global dotnet-sonarscanner --version 5.0.209
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
@@ -45,4 +31,4 @@ jobs:
       with:
         to: ${{ secrets.TELEGRAM_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        message: 'INFO: https://github.com/neronorai/BarsLogger/tree/master/BarsLogger analysys result [#${{ job.status }}]'
+        message: '[OUTPUT] BarsLogger /master analysys result [#${{ job.status }}]' 
