@@ -28,6 +28,6 @@ jobs:
     - name: Notify
       uses: appleboy/telegram-action@master
       with:
-      to: ${{ secrets.TELEGRAm_CHAT_ID }}
-      token: ${{ secrets.TELEGRAM_TOKEN }}
-      message: Build sttatus is ${{ job.status }}
+        to: ${{ secrets.TELEGRAm_CHAT_ID }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: Build sttatus is ${{ job.status }}
