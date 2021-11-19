@@ -51,6 +51,8 @@ jobs:
 
   analyze:
 
+    needs: build
+
     runs-on: ubuntu-latest
 
     steps:
