@@ -27,9 +27,18 @@ jobs:
       run: dotnet test --no-build --verbosity normal
 
     #notify
-    - name: Notify telegram
-      uses: up9cloud/action-notify@master
-      env:
-        GITHUB_JOB_STATUS: ${{ job.status }}
-        TELEGRAM_BOT_TOKEN: ${{secrets.TELEGRAM_BOT_TOKEN}}
-        TELEGRAM_CHAT_ID: ${{secrets.TELEGRAM_CHAT_ID}}
+    - name: send alert in telegram
+    if: ${{ failure() }}
+    uses: appleboy/telegram-action@master
+    with:
+      to: ${{ secrets.TELEGRAM_CHAT_ID }}
+      token: ${{ secrets.TELEGRAM_TOKEN }}
+      message: |
+        Build failed
+    if: ${{ success() }}
+    uses: appleboy/telegram-action@master
+    with:
+      to: ${{ secrets.TELEGRAM_CHAT_ID }}
+      token: ${{ secrets.TELEGRAM_TOKEN }}
+      message: |
+        Build succeeded
