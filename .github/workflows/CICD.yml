@@ -40,6 +40,9 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
 
+    - name: Publish
+      run: run: dotnet publish BarsLogger/BarsLogger.csproj -c Release -o BarsLogger
+
     - name: Notify
       if: always()
       uses: appleboy/telegram-action@master
