@@ -41,7 +41,7 @@ jobs:
       run: dotnet test --no-build --verbosity normal
 
     - name: Publish
-      run: run: dotnet publish BarsLogger/BarsLogger.csproj -c Release -o BarsLogger
+      run: dotnet publish BarsLogger/BarsLogger.csproj -c Release -o BarsLogger
 
     - name: Notify
       if: always()
