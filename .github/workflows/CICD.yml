@@ -40,17 +40,11 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
 
-    - name: Publish
-      uses: EasyDesk/action-dotnet-publish@v1
-          with:
-            build-configuration: Release
-            skip-build: true
-
     - name: Notify
       if: always()
       uses: appleboy/telegram-action@master
       with:
-        to: ${{ secrets.TELEGRAm_CHAT_ID }}
+        to: ${{ secrets.TELEGRAM_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         format: markdown
         message: '``` INFO: BarsLogger /master build result [#${{ job.status }}]```'
@@ -98,7 +92,7 @@ jobs:
       if: always()
       uses: appleboy/telegram-action@master
       with:
-        to: ${{ secrets.TELEGRAm_CHAT_ID }}
+        to: ${{ secrets.TELEGRAM_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         format: markdown
         message: '``` INFO: BarsLogger /master analysis result [#${{ job.status }}]```'
