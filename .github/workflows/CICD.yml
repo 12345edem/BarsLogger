@@ -79,8 +79,9 @@ jobs:
     
     steps:
     
-      - name: Release with commit
-        uses: ChanTsune/release-with-commit@v2.3.0
+      - name: Action Release
+        uses: yakuhzi/release-asset@v1.2.3
+
       
       
   end:
