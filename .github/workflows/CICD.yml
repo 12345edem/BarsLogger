@@ -16,13 +16,12 @@ jobs:
     steps:
 
     - name: Build start notify
-      if: always()
       uses: appleboy/telegram-action@master
       with:
         to: ${{ secrets.TELEGRAM_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         format: markdown
-        message: '``` INFO: BarsLogger /master build started```'
+        message: '*BarsLogger:* обновление начато!'
 
     - uses: actions/checkout@v2
 
@@ -40,14 +39,6 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
 
-    - name: Notify
-      if: always()
-      uses: appleboy/telegram-action@master
-      with:
-        to: ${{ secrets.TELEGRAM_CHAT_ID }}
-        token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        format: markdown
-        message: '``` INFO: BarsLogger /master build result [#${{ job.status }}]```'
 
   analyze:
 
@@ -64,15 +55,6 @@ jobs:
         language: [ 'csharp' ]
 
     steps:
-    
-    - name: Analysis start notify
-      if: always()
-      uses: appleboy/telegram-action@master
-      with:
-        to: ${{ secrets.TELEGRAM_CHAT_ID }}
-        token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        format: markdown
-        message: '``` INFO: BarsLogger /master analysis started```'
 
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -88,15 +70,6 @@ jobs:
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
-
-    - name: Notify
-      if: always()
-      uses: appleboy/telegram-action@master
-      with:
-        to: ${{ secrets.TELEGRAM_CHAT_ID }}
-        token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        format: markdown
-        message: '``` INFO: BarsLogger /master analysis result [#${{ job.status }}]```'
   
   release:
     
@@ -108,4 +81,23 @@ jobs:
     
       - name: Release with commit
         uses: ChanTsune/release-with-commit@v2.3.0
+      
+      
+  end:
+  
+    needs: [analyze, release]
+    
+    runs-on: ubuntu-latest
+    
+    steps:
+    
+      - name: Build start notify
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          format: markdown
+          message: '*BarsLogger:* обновление завершено!'
+    
+    
 
