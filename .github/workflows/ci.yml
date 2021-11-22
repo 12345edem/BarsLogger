@@ -41,7 +41,7 @@ jobs:
 
     - name: Build Error notify
       uses: appleboy/telegram-action@master
-      if: ${{job.status}} == 'failure'
+      if: ${{job.status}} != 'success'
       with:
         to: ${{ secrets.TELEGRAM_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
@@ -82,7 +82,7 @@ jobs:
 
     - name: Build Error notify
       uses: appleboy/telegram-action@master
-      if: ${{job.status}} == 'failure'
+      if: ${{job.status}} != 'success'
       with:
         to: ${{ secrets.TELEGRAM_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
@@ -120,7 +120,7 @@ jobs:
 
     - name: Build Error notify
       uses: appleboy/telegram-action@master
-      if: ${{job.status}} == 'failure'
+      if: ${{job.status}} != 'success'
       with:
         to: ${{ secrets.TELEGRAM_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
