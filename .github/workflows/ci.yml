@@ -1,4 +1,4 @@
-name: CICD
+name: ci
 
 on:
   push:
@@ -39,6 +39,15 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
 
+    - name: Build Error notify
+      uses: appleboy/telegram-action@master
+      if: ${{job.status}} == 'failure'
+      with:
+        to: ${{ secrets.TELEGRAM_CHAT_ID }}
+        token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        format: markdown
+        message: '*BarsLogger:* ошибка при сборке!'
+
 
   analyze:
 
@@ -70,6 +79,15 @@ jobs:
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
+
+    - name: Build Error notify
+      uses: appleboy/telegram-action@master
+      if: ${{job.status}} == 'failure'
+      with:
+        to: ${{ secrets.TELEGRAM_CHAT_ID }}
+        token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        format: markdown
+        message: '*BarsLogger:* ошибка при анализе!'
   
   release:
     
@@ -79,24 +97,37 @@ jobs:
     
     steps:
     
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          body: |
-            Changes:
-            ${{github.event.head_commit.message}}
-          draft: false
-          prerelease: false
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      
-      
+    - name: Get current date
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y-%m-%dT%H:%M:%S')"
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ver_${{ steps.date.outputs.date }}
+        release_name: Release_${{ steps.date.outputs.date }}
+        body: |
+          Changes:
+          ${{github.event}}
+        draft: false
+        prerelease: false
+
+    - name: Build Error notify
+      uses: appleboy/telegram-action@master
+      if: ${{job.status}} == 'failure'
+      with:
+        to: ${{ secrets.TELEGRAM_CHAT_ID }}
+        token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        format: markdown
+        message: '*BarsLogger:* ошибка при выпуске релиза!'
+
+
   end:
   
     needs: [analyze, release]
@@ -112,7 +143,4 @@ jobs:
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
           token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           format: markdown
-          message: '*BarsLogger:* обновление завершено! Статус - ${{job.status}}.'
-    
-    
-
+          message: '*BarsLogger:* обновление завершено!'
